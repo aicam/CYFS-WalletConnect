@@ -1,17 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-
+import { createBrowserHistory } from "history";
+import configureStore from "./configureStore";
 import App from './App'
 
+const history = createBrowserHistory();
+const initialState: any = {};
+const store = configureStore(history, initialState);
+
 import 'antd/dist/antd.css';
-import {Provider} from "react-redux";
-import store from './stores';
 
 
 ReactDOM.render(
-    <Provider store={store}>
-        <App/>
-    </Provider>,
+    <App store={store} history={history} />,
     document.getElementById('root')
 )
 ;

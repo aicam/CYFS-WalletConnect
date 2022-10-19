@@ -1,16 +1,28 @@
-import React, { useEffect } from 'react';
+import React, {useEffect} from 'react';
 import styles from './App.module.less';
-import { init } from '@www/initialize';
+import {init} from '@www/initialize';
 import Welcome from '@www/pages/Welcome/Welcome';
-import { Provider } from 'react-redux';
+import {Provider} from 'react-redux';
+import {ConnectedRouter} from "connected-react-router";
+import {ApplicationState} from "./stores";
+import {Store} from "redux";
+import {History} from "history";
+interface MainProps {
+    store: Store<ApplicationState>;
+    history: History;
+}
 
-export default function App() {
+const App: React.FC<MainProps> = ({ store, history }) => {
     useEffect(() => {
         init();
     }, []);
     return (
-        <div className={styles.app}>
-            <Welcome />
-        </div>
+        <Provider store={store}>
+                <div className={styles.app}>
+                    <Welcome/>
+                </div>
+        </Provider>
     );
 }
+
+export default App;
