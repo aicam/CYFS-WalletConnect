@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+message HelloRequestObject {
+	string name = 1;
+}
+
+message HelloResponseObject {
+	string greet = 1;
+}
+
+message NoneObject {
+}
