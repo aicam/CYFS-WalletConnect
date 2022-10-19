@@ -23,7 +23,16 @@ export default function Welcome() {
 
         }
     }, []);
-
+    const EthApi = () => {
+        return this.$axios.create({
+            baseURL: "https://ethereum-api.xyz",
+            timeout: 30000, // 30 secs
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+        })
+    }
     const openDialog = () => {
         connector.createSession();
         if (!connected) {
