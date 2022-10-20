@@ -1,13 +1,13 @@
 import React, {useEffect, useState} from 'react';
-import { connect } from "react-redux";
+import {connect} from "react-redux";
 import styles from './Welcome.module.less';
-import { helloWorldSimple, helloWorld } from '@src/www/apis/hello';
-import { Button } from 'antd';
+import {helloWorldSimple, helloWorld} from '@src/www/apis/hello';
+import {Button, Row, Col} from 'antd';
 import WalletConnect from "@walletconnect/client";
 import QRCodeModal from "@walletconnect/qrcode-modal";
 import {ApplicationState} from "../../stores";
-import { ThunkDispatch } from "redux-thunk";
-import { AnyAction } from "redux";
+import {ThunkDispatch} from "redux-thunk";
+import {AnyAction} from "redux";
 import {fetchWalletInfo} from "../../stores/wallet/action";
 
 interface PropsFromState {
@@ -23,72 +23,89 @@ type Props = PropsFromState & propsFromDispatch;
 const Welcome: React.FC<Props> = ({wallet, setWallets}) => {
     const [connected, setConnected] = useState(false);
     const [account, setAccount] = useState("");
+    const [chainId, setChainId] = useState(0);
     const connector = new WalletConnect({
         bridge: "https://bridge.walletconnect.org", // Required
         qrcodeModal: QRCodeModal,
     });
-    useEffect( () => {
+    connector.on("connect", (error, payload) => {
+        if (error) {
+            throw error;
+        }
+        // Get provided accounts and chainId
+        const {accounts, chainId} = payload.params[0];
+
+        saveWalletInfo(accounts[0], chainId);
+    });
+    // information updated event
+    connector.on("session_update", (error, payload) => {
+        if (error) {
+            throw error;
+        }
+        // Get updated accounts and chainId
+        const {accounts, chainId} = payload.params[0];
+        saveWalletInfo(accounts[0], chainId);
+    });
+
+    connector.on("disconnect", (error, payload) => {
+        if (error) {
+            throw error;
+        }
+
+        // Delete connector
+    });
+
+    const saveWalletInfo = (account: string, chainId: number) => {
+        setAccount(account);
+        setChainId(chainId);
+        setWallets(account, chainId.toString());
+    }
+
+    useEffect(() => {
         if (!connector.connected) {
             // create new session
-            setConnected(false)
-            console.log('Not connected')
+            setConnected(false);
+            console.log('wallet is not connected ');
         } else {
-            // Subscribe to connection events
-            console.log('App is connected');
+            setConnected(true);
+            console.log('wallet is connected')
         }
     }, []);
 
+    const addListeners = () => {
+
+    }
+
     const openDialog = () => {
         connector.createSession();
-        if (!connected) {
-            connector.on("connect", (error, payload) => {
-                if (error) {
-                    throw error;
-                }
-                // Get provided accounts and chainId
-                const { accounts, chainId } = payload.params[0];
-                console.log('ChaiId is ', chainId);
-                const mainAccount = accounts[0];
-                setWallets(mainAccount, chainId);
-                console.log('after set ', wallet);
-            });
-            // information updated event
-            connector.on("session_update", (error, payload) => {
-                if (error) {
-                    throw error;
-                }
-                // Get updated accounts and chainId
-                const { accounts, chainId } = payload.params[0];
-            });
-
-            connector.on("disconnect", (error, payload) => {
-                if (error) {
-                    throw error;
-                }
-
-                // Delete connector
-            });
-
-        }
     }
 
     const disconnect = () => {
         connector.killSession();
+        setConnected(false);
     }
 
     return (
         <div className={styles.box}>
-            <Button onClick={() => openDialog()} type="primary">
-                Open Dialog
-            </Button>
-            <Button onClick={() => disconnect()} type="primary">
-                Disconnect
-            </Button>
+            {!connected &&
+                <Button onClick={() => openDialog()} type="primary">
+                    Connect Wallet
+                </Button>
+            }
+            {connected &&
+                <Row>
+                    <Col span={12}>
+                        <Button onClick={() => disconnect()} type="primary">
+                            Disconnect
+                        </Button>
+                    </Col>
+                </Row>
+            }
         </div>
     );
 }
 
-const mapStateToProps =({ wallet }: ApplicationState) => ({
+const mapStateToProps = ({wallet}: ApplicationState) => ({
     wallet: wallet
 });
 
