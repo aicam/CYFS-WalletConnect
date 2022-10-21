@@ -18,7 +18,7 @@ const App: React.FC<MainProps> = ({ store, history }) => {
     }, []);
     return (
         <Provider store={store}>
-                <div className={styles.app}>
+                <div>
                     <Welcome/>
                 </div>
         </Provider>

@@ -9,6 +9,12 @@ import {ApplicationState} from "../../stores";
 import {ThunkDispatch} from "redux-thunk";
 import {AnyAction} from "redux";
 import {fetchWalletInfo} from "../../stores/wallet/action";
+import CYFSWalletLogo from "@www/assets/images/CYFSWalletLogo.png";
+import copy from "@www/assets/images/copy.png";
+import ethereum from "@www/assets/images/ethereum.png";
+import buyit from "@www/assets/images/buyit.png";
+import send from "@www/assets/images/send.png";
+import swap from "@www/assets/images/swap.png";
 
 interface PropsFromState {
     wallet: []
@@ -24,6 +30,27 @@ const Welcome: React.FC<Props> = ({wallet, setWallets}) => {
     const [connected, setConnected] = useState(false);
     const [account, setAccount] = useState("");
     const [chainId, setChainId] = useState(0);
+    const [walletKey, setWalletKey] = useState('0x7fF903458903485dD29');
+    const [currency, setCurrency] = useState('ETH');
+    const [currencyAmount, setCurrencyAmount] = useState(0);
+    const [nationalCurrency, setNationalCurrency] = useState('USD');
+    const [nationalCurrencyAmount, setNationalCurrencyAmount] = useState('0.00');
+
+    useEffect(() => {
+        if (walletKey.length > 20) {
+            setWalletKey(walletKey.substring(0, 6) + '...' + walletKey.substring(walletKey.length - 4, walletKey.length))
+        }
+        setCurrency('ETH');
+        setCurrencyAmount(0);
+        setNationalCurrency('USD');
+        setNationalCurrencyAmount('0.00');
+    }, []);
+
+    const copyWalletKey = () => {
+        /* Copy text into clipboard */
+        navigator.clipboard.writeText(walletKey);
+    }
+
     const connector = new WalletConnect({
         bridge: "https://bridge.walletconnect.org", // Required
         qrcodeModal: QRCodeModal,
@@ -86,22 +113,52 @@ const Welcome: React.FC<Props> = ({wallet, setWallets}) => {
     }
 
     return (
-        <div className={styles.box}>
+        <>
             {!connected &&
-                <Button onClick={() => openDialog()} type="primary">
-                    Connect Wallet
-                </Button>
+                <div className={styles.box}>
+                    <Button onClick={() => openDialog()} type="primary">
+                        Connect Wallet
+                    </Button>
+                </div>
             }
             {connected &&
-                <Row>
-                    <Col span={12}>
-                        <Button onClick={() => disconnect()} type="primary">
-                            Disconnect
-                        </Button>
-                    </Col>
-                </Row>
+                <div>
+                    <div className={styles.Title}>
+                        <img className={styles.ImageLogo} src={CYFSWalletLogo} alt="CYFSWalletLogo"/>
+                        <p className={styles.TilteText}>CYFS Wallet</p>
+                        <a onClick={disconnect}>Disconnect</a>
+                    </div>
+                    <div className={styles.Container}>
+                        <div className={styles.AccountWallet}>
+                            <p className={styles.TilteText}>Account 1</p>
+                            <div className={styles.WalletKey}>
+                                <p className={styles.WalletKeyText}>
+                                    {walletKey}
+                                </p>
+                                <img className={styles.ImageCopy} src={copy} alt="copy"
+                                     onClick={() => copyWalletKey()}/>
+                            </div>
+                        </div>
+                        <div className={styles.CurrencyContainer}>
+                            <img className={styles.ImageCurrency} src={ethereum} alt="ethereum"/>
+                            <div className={styles.CurrencyValueContainer}>
+                                <p className={styles.CurrencyAmountText}>{currencyAmount}</p>
+                                <p className={styles.CurrencyAmountText}>{currency}</p>
+                            </div>
+                            <div className={styles.NationalCurrencyValueContainer}>
+                                <p className={styles.NationalCurrencyAmountText}>{'$' + nationalCurrencyAmount}</p>
+                                <p className={styles.NationalCurrencyAmountText}>{nationalCurrency}</p>
+                            </div>
+                        </div>
+                        <div className={styles.AllButtonsContainer}>
+                            <img className={styles.ImageBuyButton} src={buyit} alt="buyit"/>
+                            <img className={styles.ImageSendButton} src={send} alt="send"/>
+                            <img className={styles.ImageSendButton} src={swap} alt="swap"/>
+                        </div>
+                    </div>
+                </div>
             }
-        </div>
+        </>
     );
 }
 
