@@ -8,7 +8,7 @@ import QRCodeModal from "@walletconnect/qrcode-modal";
 import {ApplicationState} from "../../stores";
 import {ThunkDispatch} from "redux-thunk";
 import {AnyAction} from "redux";
-import {fetchWalletInfo} from "../../stores/wallet/action";
+import {fetchChainPrice, fetchWalletInfo} from "../../stores/wallet/action";
 import CYFSWalletLogo from "@www/assets/images/CYFSWalletLogo.png";
 import copy from "@www/assets/images/copy.png";
 import ethereum from "@www/assets/images/ethereum.png";
@@ -23,11 +23,12 @@ interface PropsFromState {
 
 interface propsFromDispatch {
     setWallets: (address: string, chainId: string) => any;
+    setChainPrice: (symbol: string) => any;
 }
 
 type Props = PropsFromState & propsFromDispatch;
 
-const Welcome: React.FC<Props> = ({wallet, setWallets}) => {
+const Welcome: React.FC<Props> = ({wallet, setWallets, setChainPrice}) => {
     const [connected, setConnected] = useState(false);
     const [account, setAccount] = useState("");
     const [chainId, setChainId] = useState(0);
@@ -42,11 +43,17 @@ const Welcome: React.FC<Props> = ({wallet, setWallets}) => {
         setCurrencyAmount(0);
         setNationalCurrency('USD');
         setNationalCurrencyAmount('0.00');
+        if (!connector.connected) {
+            setConnected(false);
+        } else {
+            saveWalletInfo(connector.accounts[0], connector.chainId);
+            setConnected(true);
+        }
     }, []);
 
     const copyWalletKey = () => {
         /* Copy text into clipboard */
-        navigator.clipboard.writeText(walletKey);
+        navigator.clipboard.writeText(account);
     }
 
     const connector = new WalletConnect({
@@ -85,21 +92,7 @@ const Welcome: React.FC<Props> = ({wallet, setWallets}) => {
         setAccount(account);
         setWalletKey(account.substring(0, 6) + '...' + account.substring(account.length - 4, account.length))
         setChainId(chainId);
-        await setWallets(account, chainId.toString());
-        console.log('wallet for async ', wallet);
-    }
-
-    useEffect(() => {
-        if (!connector.connected) {
-            setConnected(false);
-        } else {
-            saveWalletInfo(connector.accounts[0], connector.chainId);
-            setConnected(true);
-        }
-    }, []);
-
-    const addListeners = () => {
-
+        setWallets(account, chainId.toString()).then((_: any) => console.log('wallet for async ', wallet));
     }
 
     const openDialog = () => {
@@ -109,11 +102,12 @@ const Welcome: React.FC<Props> = ({wallet, setWallets}) => {
     const disconnect = () => {
         connector.killSession();
         setConnected(false);
-        window.location.reload();
+        // window.location.reload();
     }
 
     useEffect(() => {
-        setTimeout(() => console.log("Check the wallet ", wallet), 2000);
+        if (wallet.wallets.length > 0 && wallet.chainPrice === 0)
+            setChainPrice('ETH');
     }, [wallet]);
 
     return (
@@ -132,11 +126,11 @@ const Welcome: React.FC<Props> = ({wallet, setWallets}) => {
                     <div className={styles.Title}>
                         <img className={styles.ImageLogo} src={CYFSWalletLogo} alt="CYFSWalletLogo"/>
                         <p className={styles.TilteText}>CYFS Wallet</p>
-                        <a onClick={disconnect}>Disconnect</a>
+                        <a className={styles.disconnect} onClick={disconnect}>Disconnect</a>
                     </div>
                     <div className={styles.Container}>
                         <div className={styles.AccountWallet}>
-                            <p className={styles.TilteText}>Account 1</p>
+                            <p className={styles.TilteText}>Wallet Address</p>
                             <div className={styles.WalletKey}>
                                 <p className={styles.WalletKeyText}>
                                     {walletKey}
@@ -152,7 +146,7 @@ const Welcome: React.FC<Props> = ({wallet, setWallets}) => {
                                 <p className={styles.CurrencyAmountText}>{currency}</p>
                             </div>
                             <div className={styles.NationalCurrencyValueContainer}>
-                                <p className={styles.NationalCurrencyAmountText}>{'$' + nationalCurrencyAmount}</p>
+                                { wallet.chainPrice > 0 && <p className={styles.NationalCurrencyAmountText}>{'$' + wallet.chainPrice * parseInt(wallet.wallets[0].balance, 10)}</p> }
                                 <p className={styles.NationalCurrencyAmountText}>{nationalCurrency}</p>
                             </div>
                         </div>
@@ -174,7 +168,8 @@ const mapStateToProps = ({wallet}: ApplicationState) => ({
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<any, any, AnyAction>) => {
     return {
-        setWallets: (address: string, chainId: string) => dispatch(fetchWalletInfo(address, chainId))
+        setWallets: (address: string, chainId: string) => dispatch(fetchWalletInfo(address, chainId)),
+        setChainPrice: (symbol: string) => dispatch(fetchChainPrice(symbol))
     }
 }
 
