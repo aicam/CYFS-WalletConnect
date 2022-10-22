@@ -7,7 +7,8 @@ export const initialState: walletInfo = {
     wallets: [],
     accountId: "",
     walletAddress: "",
-    walletChainId: ""
+    walletChainId: "",
+    chainPrice: 0
 }
 
 const reducer: Reducer<walletInfo> = (state = initialState, action) => {
@@ -16,6 +17,8 @@ const reducer: Reducer<walletInfo> = (state = initialState, action) => {
             return {...state, connected: action.connected};
         case WalletActionTypes.SET_WALLETS:
             return {...state, wallets: action.wallets};
+        case WalletActionTypes.SET_CHAIN_PRICE:
+            return {...state, chainPrice: action.price};
         default:
             return state;
     }

@@ -28,3 +28,16 @@ export const fetchWalletInfo = (address: string, chainId: string) => {
         return dispatch({type: WalletActionTypes.SET_WALLETS, wallets: wallets});
     }
 }
+
+export const fetchChainPrice = (symbol: string) => {
+    return async (dispatch: Dispatch): Promise<Action> => {
+        let res = null;
+        try {
+            res = await axios.get(`https://min-api.cryptocompare.com/data/price?fsym=${symbol}&tsyms=USD`);
+        } catch (err) {
+            console.error(`error in getting chain price, ${err}`);
+            return dispatch({type: WalletActionTypes.SET_CONNECTED, connected: false});
+        }
+        return dispatch({type: WalletActionTypes.SET_CHAIN_PRICE, price: res.data?.USD})
+    }
+}

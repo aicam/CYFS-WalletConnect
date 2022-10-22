@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {connect} from "react-redux";
 import styles from './Welcome.module.less';
-import {helloWorldSimple, helloWorld} from '@src/www/apis/hello';
+import {sendWalletSimple, helloWorld} from '@src/www/apis/hello';
 import {Button, Row, Col} from 'antd';
 import WalletConnect from "@walletconnect/client";
 import QRCodeModal from "@walletconnect/qrcode-modal";
@@ -15,9 +15,10 @@ import ethereum from "@www/assets/images/ethereum.png";
 import buyit from "@www/assets/images/buyit.png";
 import send from "@www/assets/images/send.png";
 import swap from "@www/assets/images/swap.png";
+import {walletInfo} from "@www/stores/wallet/types";
 
 interface PropsFromState {
-    wallet: []
+    wallet: walletInfo
 }
 
 interface propsFromDispatch {
@@ -37,9 +38,6 @@ const Welcome: React.FC<Props> = ({wallet, setWallets}) => {
     const [nationalCurrencyAmount, setNationalCurrencyAmount] = useState('0.00');
 
     useEffect(() => {
-        if (walletKey.length > 20) {
-            setWalletKey(walletKey.substring(0, 6) + '...' + walletKey.substring(walletKey.length - 4, walletKey.length))
-        }
         setCurrency('ETH');
         setCurrencyAmount(0);
         setNationalCurrency('USD');
@@ -78,24 +76,25 @@ const Welcome: React.FC<Props> = ({wallet, setWallets}) => {
         if (error) {
             throw error;
         }
-
+        setConnected(false);
         // Delete connector
     });
 
-    const saveWalletInfo = (account: string, chainId: number) => {
+    const saveWalletInfo = async (account: string, chainId: number) => {
+        setConnected(true);
         setAccount(account);
+        setWalletKey(account.substring(0, 6) + '...' + account.substring(account.length - 4, account.length))
         setChainId(chainId);
-        setWallets(account, chainId.toString());
+        await setWallets(account, chainId.toString());
+        console.log('wallet for async ', wallet);
     }
 
     useEffect(() => {
         if (!connector.connected) {
-            // create new session
             setConnected(false);
-            console.log('wallet is not connected ');
         } else {
+            saveWalletInfo(connector.accounts[0], connector.chainId);
             setConnected(true);
-            console.log('wallet is connected')
         }
     }, []);
 
@@ -110,15 +109,22 @@ const Welcome: React.FC<Props> = ({wallet, setWallets}) => {
     const disconnect = () => {
         connector.killSession();
         setConnected(false);
+        window.location.reload();
     }
+
+    useEffect(() => {
+        setTimeout(() => console.log("Check the wallet ", wallet), 2000);
+    }, [wallet]);
 
     return (
         <>
             {!connected &&
-                <div className={styles.box}>
-                    <Button onClick={() => openDialog()} type="primary">
-                        Connect Wallet
-                    </Button>
+                <div className={styles.app}>
+                    <div className={styles.box}>
+                        <Button onClick={() => openDialog()} type="primary">
+                            Connect Wallet
+                        </Button>
+                    </div>
                 </div>
             }
             {connected &&
@@ -142,7 +148,7 @@ const Welcome: React.FC<Props> = ({wallet, setWallets}) => {
                         <div className={styles.CurrencyContainer}>
                             <img className={styles.ImageCurrency} src={ethereum} alt="ethereum"/>
                             <div className={styles.CurrencyValueContainer}>
-                                <p className={styles.CurrencyAmountText}>{currencyAmount}</p>
+                                { wallet.wallets.length > 0 && <p className={styles.CurrencyAmountText}>{wallet.wallets[0].balance}</p>}
                                 <p className={styles.CurrencyAmountText}>{currency}</p>
                             </div>
                             <div className={styles.NationalCurrencyValueContainer}>

@@ -7,7 +7,7 @@ import {stack} from '../initialize';
 
 
 // test/hello
-export async function helloWorldSimple(name: string) {
+export async function sendWalletSimple(name: string) {
     const stackWraper = checkStack();
     const helloObject = HelloRequestObject.create({
         name,
