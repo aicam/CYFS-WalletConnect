@@ -60,9 +60,9 @@ const g_simulatorPortRuntime = {
 
 let g_useSimulator:
     | {
-          zoneNo: SimulatorZoneNo;
-          deviceNo: SimulatorDeviceNo;
-      }
+    zoneNo: SimulatorZoneNo;
+    deviceNo: SimulatorDeviceNo;
+}
     | undefined;
 
 export function checkSimulator(): [SimulatorZoneNo, SimulatorDeviceNo] {
@@ -146,7 +146,7 @@ export class StackWraper {
             return r;
         }
         const resp = r.unwrap();
-        return fromNONObjectInfo(resp.object, decoderGen).map((object: any) => ({
+        return fromNONObjectInfo(resp.object, decoderGen).map((object) => ({
             object,
             updateTime:
                 resp.object_update_time && cyfs.bucky_time_2_js_time(resp.object_update_time),
@@ -318,7 +318,7 @@ export class StackWraper {
             inner_path: options?.innerPath
         });
 
-        return r.map((resp: { object: any }) => resp.object);
+        return r.map((resp) => resp.object);
     }
 
     public async signObject<O extends AsObject>(
@@ -378,7 +378,7 @@ export class StackWraper {
             console.error(`sign object failed when decode, ${dr}`);
             return dr;
         }
-        return dr.map((obj: any) => ({ object: obj, state: resp.result }));
+        return dr.map((obj) => ({ object: obj, state: resp.result }));
     }
 
     public async verifyObject(
@@ -433,7 +433,7 @@ export class StackWraper {
             sign_object: signSource
         });
 
-        return verifyR.map((r: { result: { valid: any } }) => r.result.valid);
+        return verifyR.map((r) => r.result.valid);
     }
 
     public async getDeviceFromCache(
@@ -442,7 +442,7 @@ export class StackWraper {
         const r = await this.getObject(deviceId.object_id, cyfs.DeviceDecoder, {
             level: cyfs.NONAPILevel.NOC
         });
-        return r.map((r: { object: any }) => r.object);
+        return r.map((r) => r.object);
     }
 
     public async isReqestInZone(
@@ -470,7 +470,7 @@ export class StackWraper {
             object_id: ownerId,
             owner_id: ownerId
         });
-        return rsR.map((resp: { device_list: any }) => resp.device_list);
+        return rsR.map((resp) => resp.device_list);
     }
 
     public async publishFile(
@@ -637,7 +637,7 @@ export async function waitStackOOD(decId?: cyfs.ObjectId): Promise<cyfs.BuckyRes
     if (!g_stack) {
         g_stack = new StackInitializerOOD(decId);
     }
-    return (await g_stack.waitOnline()).map((_: any) => g_stack!);
+    return (await g_stack.waitOnline()).map((_) => g_stack!);
 }
 
 export async function waitStackRuntime(
@@ -646,7 +646,7 @@ export async function waitStackRuntime(
     if (!g_stack) {
         g_stack = new StackInitializerRuntime(decId);
     }
-    return (await g_stack.waitOnline()).map((_: any) => g_stack!);
+    return (await g_stack.waitOnline()).map((_) => g_stack!);
 }
 
 export async function initWithNativeStack(

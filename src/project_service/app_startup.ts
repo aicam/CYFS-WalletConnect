@@ -1,5 +1,5 @@
 import * as cyfs from 'cyfs-sdk';
-import {helloWorldRouter} from './hello_world';
+import {projectRouter} from './project';
 
 type postRouter = (req: cyfs.RouterHandlerPostObjectRequest) => Promise<cyfs.BuckyResult<cyfs.RouterHandlerPostObjectResult>>
 
@@ -49,7 +49,7 @@ export async function main() {
         undefined,
         '/test/hello',
         cyfs.RouterHandlerAction.Pass,
-        new PostRouterReqPathRouterHandler(helloWorldRouter)
+        new PostRouterReqPathRouterHandler(projectRouter)
     );
     if (r.err) {
         console.error(`add post handler failed, ${r}`);

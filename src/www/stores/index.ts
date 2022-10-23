@@ -12,6 +12,6 @@ export interface ApplicationState {
 
 export const createRootReducer = (history: History) =>
     combineReducers({
-        cart: walletReducer,
+        wallet: walletReducer,
         router: connectRouter(history)
     });

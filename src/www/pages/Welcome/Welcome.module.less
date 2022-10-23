@@ -1,3 +1,20 @@
+.app {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.titleDecoration {
+    text-align: center;
+}
+
+.titleClients {
+    color: #ff5215;
+}
+
 .box {
     width: 100%;
     height: 100%;
@@ -6,4 +23,209 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+}
+
+.Container {
+    box-sizing: border-box;
+    width: 90%;
+    margin: 0 auto;
+    padding: 10px 0;
+    padding-top: 5px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 18px 0px;
+    margin-top: 15px;
+    overflow: hidden;
+}
+
+.Title {
+    display: flex;
+    align-items: center;
+    font-size: 18px !important;
+    color: rgba(64, 64, 64, 1);
+    font-weight: 700 !important;
+    padding-left: 5% !important;
+    margin-top: 10px !important;
+    /* text-transform: capitalize; */
+}
+
+.AccountWallet {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px !important;
+    color: rgba(64, 64, 64, 1);
+    font-weight: 700 !important;
+    flex-direction: column;
+    border-bottom: 2px solid #E7ECEF;
+    /* text-transform: capitalize; */
+}
+
+.CurrencyValueContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    gap: 3px;
+}
+
+.NationalCurrencyValueContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    gap: 3px;
+}
+
+.WalletKey {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px !important;
+    color: rgba(64, 64, 64, 1);
+    font-weight: 700 !important;
+    flex-direction: row;
+    /* text-transform: capitalize; */
+    margin-bottom: 5px;
+    /* gap: 1%; */
+}
+
+.CurrencyContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin-top: 5px;
+}
+
+.Paragraph {
+    font-size: 16px !important;
+    color: #404040 !important;
+    padding: 10px 0 !important;
+}
+
+.DownloadButton {
+    display: block;
+    border-radius: 4px;
+    padding: 9px 25px;
+    font-weight: 500 !important;
+    cursor: pointer;
+    border: 1px solid transparent;
+    font-size: 13px !important;
+    margin: 30px;
+    background-color: #ADD8E6;
+    color: white;
+    box-shadow: hsla(0, 0%, 38.82352941176471%, 0.2) 0px 2px 8px 0px;
+    transition: all .3s;
+    text-decoration: none;
+    letter-spacing: 0.3px;
+}
+
+.AllButtonsContainer {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    padding: 0 8px;
+    gap: 5%;
+    margin-top: 5%;
+    margin-left: 20%;
+    margin-right: 20%;
+}
+
+.Text {
+    font-size: 14px !important;
+    font-weight: lighter !important;
+    letter-spacing: 0.3px;
+    margin: 0;
+}
+
+.Age {
+    color: #ADD8E6;
+    font-size: 16px !important;
+    font-weight: 600 !important;
+    margin: 12px 0 20px !important;
+    letter-spacing: 0.3px;
+}
+
+.ButtonContainer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    flex: 1;
+    padding: 5px;
+    margin-bottom: 10px;
+}
+
+.ImageLogo {
+    height: 15vw;
+    width: 15vw;
+}
+
+.ImageCurrency {
+    height: 20vw;
+    width: 20vw;
+}
+
+.ImageBuyButton {
+    height: 12vw;
+    width: 12vw;
+}
+
+.ImageSendButton {
+    margin-top: 0.5vh;
+    height: 10.5vw;
+    width: 10.5vw;
+}
+
+.ImageCopy {
+    margin-left: 5px;
+    height: 5vw;
+    width: 5vw;
+}
+
+.TilteText {
+    font-size: 3vw !important;
+    font-weight: bold !important;
+    letter-spacing: 0.3px;
+    margin: 0;
+    margin-bottom: 5px;
+}
+
+.CurrencyAmountText {
+    font-size: 4vw !important;
+    font-weight: bold !important;
+    letter-spacing: 0.3px;
+    margin: 0;
+    margin-bottom: 5px;
+}
+
+.NationalCurrencyAmountText {
+    font-size: 3.5vw !important;
+    /* font-weight: bold !important; */
+    color: #404040;
+    letter-spacing: 0.3px;
+    margin: 0;
+    margin-bottom: 5px;
+}
+
+.WalletKeyText {
+    font-size: 3vw !important;
+    font-weight: bold !important;
+    letter-spacing: 0.3px;
+    margin: 0;
+}
+
+.cut-text {
+    text-overflow: clip ellipsis clip 0 3ch;
+    overflow: hidden;
+    width: 20vw;
+    height: 1.2em;
+    white-space: nowrap;
+}
+
+.disconnect {
+    margin-left: 30px;
+    font-size: 16px;
+    text-decoration: underline;
 }

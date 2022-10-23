@@ -1,12 +1,16 @@
 syntax = "proto3";
 
-message HelloRequestObject {
-	string name = 1;
+message Project {
+	uint32 id = 1;
+	string title = 2;
+	string description = 3;
+	string verraURL = 4;
+	float co = 5;
 }
 
-message HelloResponseObject {
-	string greet = 1;
-}
+message NoneObject {}
 
-message NoneObject {
+message ResponseObject {
+	uint32 err = 1;
+	string msg = 2;
 }

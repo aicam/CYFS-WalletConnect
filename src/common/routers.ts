@@ -1,11 +1,14 @@
-import * as cyfs from 'cyfs-sdk';
-import { HelloRequestObject } from './objs/hello_request_object';
-import { HelloResponseObject } from './objs/hello_response_object';
+import { Project } from "@src/common/objs/project";
+import { ResponseObject} from "@src/common/objs/responseobject";
 
 export const enum ROUTER_PATHS {
-    TEST_HELLO = '/test/hello'
+    PUBLISH_PROJECT = '/project/publish',
+    RETRIEVE_PROJECT = '/project/retrive'
 }
 
-// /test/hello request and response params
-export type TestHelloRequestParam = HelloRequestObject;
-export type TestHelloResponseParam = HelloResponseObject;
+export type PublishProjecRequestParam = Project;
+export type PublishProjectResponseParam = ResponseObject;
+
+// /message/retrieve request and response params
+export type RetrieveProjectRequestParam = Project;
+export type RetrieveMessageResponseParam = Project;
