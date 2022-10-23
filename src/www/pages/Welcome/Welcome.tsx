@@ -18,6 +18,7 @@ import send from "@www/assets/images/send.png";
 import swap from "@www/assets/images/swap.png";
 import {walletInfo} from "@www/stores/wallet/types";
 import {sendToken} from "@www/smart_contracts/SendToken";
+import DefineProject from "@www/pages/DefineProject/DefineProject";
 
 interface PropsFromState {
     wallet: walletInfo

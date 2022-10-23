@@ -9,6 +9,8 @@ const initialState: any = {};
 const store = configureStore(history, initialState);
 
 import 'antd/dist/antd.css';
+import {createHashRouter} from "react-router-dom";
+import GreenomicsHomepage from "@www/pages/Welcome/Welcome";
 
 
 ReactDOM.render(

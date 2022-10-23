@@ -12,14 +12,15 @@ import RouterComponent from './routerComponent';
 
 import {
     createBrowserRouter,
+    createHashRouter,
     RouterProvider,
     Route,
-    BrowserRouter
+    BrowserRouter, HashRouter, Router
 } from "react-router-dom";
 
-const router = createBrowserRouter([
+const router = createHashRouter([
     {
-        path: "/",
+        path: "/sada",
         element: <GreenomicsHomepage/>,
     },
     {
@@ -38,11 +39,9 @@ const App: React.FC<MainProps> = ({store, history}) => {
         init();
     }, []);
     return (
-        <BrowserRouter>
-            <Provider store={store}>
-                <RouterComponent />
-            </Provider>
-        </BrowserRouter>
+        <Provider store={store}>
+            <RouterProvider router={router}/>
+        </Provider>
     );
 }
 

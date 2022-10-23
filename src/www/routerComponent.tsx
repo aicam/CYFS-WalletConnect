@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Route, Routes } from 'react-router-dom'
+import {Route, Routes} from 'react-router-dom'
 import GreenomicsHomepage from "@www/pages/Welcome/Welcome";
 
 const RouterComponent: React.SFC = () => (
