@@ -1,7 +1,7 @@
 {
-    "name": "hello-world-demo",
+    "name": "greenomics",
     "version": "1.0.0",
-    "description": "This is a demo application",
+    "description": "greenomics is a marketplace to deploy Carbon credits on chain in distributed platform",
     "main": "index.js",
     "scripts": {
         "dev": "cd src/www && npx webpack serve --hot  --mode development --env development",
@@ -17,7 +17,7 @@
         "lint-fix": "eslint \"**/*.{ts,tsx}\" --fix"
     },
     "keywords": [],
-    "author": "",
+    "author": "Ali Risheh",
     "license": "ISC",
     "devDependencies": {
         "@babel/core": "^7.14.3",

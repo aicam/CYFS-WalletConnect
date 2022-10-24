@@ -121,7 +121,7 @@ const GreenomicsHomepage: React.FC<Props> = ({wallet, setWallets, setChainPrice}
                         <img src="https://greenomics.site/_nuxt/img/logo.c47da55.png" width="250px"/>
                     </div>
                     <div className={styles.titleDecoration}>
-                        <h2>Greenomics is a platform to trade Carbon assets in a decentralized platform.</h2>
+                        <h2><span className={styles.shadowText}>Greenomics</span> is a platform to trade Carbon assets in a decentralized system.</h2>
                         <h2>It makes the market transparent and easy to trade.</h2>
                         <h2 className={styles.titleClients}>As a project developer: You can make an ERC20 token
                             out of your Carbon removals which should be confirmed by Verra or Gold Standard and

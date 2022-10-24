@@ -1,3 +1,62 @@
 .div-container {
-    margin: 20px;
+    margin-top: 20px;
+    width: 100%;
+    justify-content: center;
+    align-content: center;
+}
+
+.right-col {
+    padding-left: 20px;
+}
+
+.project-container {
+    margin-top: 30px;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: white;
+    border-radius: 10px;
+    padding: 25px;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 18px 0px;
+}
+
+.verra-url {
+    text-decoration: underline;
+    color: #100fff;
+    font-size: 20px;
+    margin-top: 20px;
+}
+
+.co-title {
+    font-weight: bold;
+    font-size: 20px;
+    margin-top: 50px;
+}
+
+.co-amount {
+    font-size: 18px;
+    margin-top: -20px;
+}
+.loader {
+    margin-left: auto;
+    margin-right: auto;
+    border: 12px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 12px solid #3498db;
+    width: 80px;
+    height: 80px;
+    -webkit-animation: spin 2s linear infinite; /* Safari */
+    animation: spin 2s linear infinite;
+    margin-top: 20px;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
