@@ -25,7 +25,7 @@ export const fetchWalletInfo = (address: string, chainId: string) => {
             wallets.push({"symbol": item.symbol, "balance": (parseInt(item.balance, 10) * (10 ** (-10))).toString().substring(0, 5)})
         });
         console.log("wallets confirmed ", wallets);
-        return dispatch({type: WalletActionTypes.SET_WALLETS, wallets: wallets});
+        return dispatch({type: WalletActionTypes.SET_WALLETS, wallets: wallets, address: address});
     }
 }
 

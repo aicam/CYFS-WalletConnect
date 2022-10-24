@@ -117,9 +117,6 @@ const GreenomicsHomepage: React.FC<Props> = ({wallet, setWallets, setChainPrice}
         <>
             {!connected &&
                 <div className={styles.app}>
-                    <Button onClick={() => sendToken("dsad")}>
-                        Hello fuck
-                    </Button>
                     <div>
                         <img src="https://greenomics.site/_nuxt/img/logo.c47da55.png" width="250px"/>
                     </div>
@@ -140,43 +137,7 @@ const GreenomicsHomepage: React.FC<Props> = ({wallet, setWallets, setChainPrice}
                 </div>
             }
             {connected &&
-                <div>
-                    <div className={styles.Title}>
-                        <img className={styles.ImageLogo} src={CYFSWalletLogo} alt="CYFSWalletLogo"/>
-                        <p className={styles.TilteText}>CYFS Wallet</p>
-                        <a className={styles.disconnect} onClick={disconnect}>Disconnect</a>
-                    </div>
-                    <div className={styles.Container}>
-                        <div className={styles.AccountWallet}>
-                            <p className={styles.TilteText}>Wallet Address</p>
-                            <div className={styles.WalletKey}>
-                                <p className={styles.WalletKeyText}>
-                                    {walletKey}
-                                </p>
-                                <img className={styles.ImageCopy} src={copy} alt="copy"
-                                     onClick={() => copyWalletKey()}/>
-                            </div>
-                        </div>
-                        <div className={styles.CurrencyContainer}>
-                            <img className={styles.ImageCurrency} src={ethereum} alt="ethereum"/>
-                            <div className={styles.CurrencyValueContainer}>
-                                {wallet.wallets.length > 0 &&
-                                    <p className={styles.CurrencyAmountText}>{wallet.wallets[0].balance}</p>}
-                                <p className={styles.CurrencyAmountText}>{currency}</p>
-                            </div>
-                            <div className={styles.NationalCurrencyValueContainer}>
-                                {wallet.chainPrice > 0 &&
-                                    <p className={styles.NationalCurrencyAmountText}>{'$' + wallet.chainPrice * parseInt(wallet.wallets[0].balance, 10)}</p>}
-                                <p className={styles.NationalCurrencyAmountText}>{nationalCurrency}</p>
-                            </div>
-                        </div>
-                        <div className={styles.AllButtonsContainer}>
-                            <img className={styles.ImageBuyButton} src={buyit} alt="buyit"/>
-                            <img className={styles.ImageSendButton} src={send} alt="send"/>
-                            <img className={styles.ImageSendButton} src={swap} alt="swap"/>
-                        </div>
-                    </div>
-                </div>
+                <DefineProject />
             }
         </>
     );

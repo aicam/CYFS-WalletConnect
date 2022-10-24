@@ -20,7 +20,7 @@ import {
 
 const router = createHashRouter([
     {
-        path: "/sada",
+        path: "/",
         element: <GreenomicsHomepage/>,
     },
     {

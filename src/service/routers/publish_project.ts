@@ -39,7 +39,7 @@ export async function publishProjectRouter(
     const pathOpEnv = r.unwrap();
 
     // Determine the path where the new Message object will be stored and lock the path
-    const createMessagePath = `/messages_list/${projectObject.id}`;
+    const createMessagePath = `/projects_list/${projectObject.id}`;
     const paths = [createMessagePath];
     console.log(`will lock paths ${JSON.stringify(paths)}`);
     const lockR = await pathOpEnv.lock(paths, cyfs.JSBI.BigInt(30000));

@@ -38,7 +38,7 @@ export async function retrieveProjectRouter(
     const pathOpEnv = createRet.unwrap();
 
     // Use the get_by_path method of pathOpEnv to get the object_id of the Message object from the storage path of the Message object
-    const queryMessagePath = `/messages_list/${projectObject.id}`;
+    const queryMessagePath = `/projects_list/${projectObject.id}`;
     const idR = await pathOpEnv.get_by_path(queryMessagePath);
     if (idR.err) {
         const errMsg = `get_by_path (${queryMessagePath}) failed, ${idR}`;

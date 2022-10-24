@@ -16,7 +16,7 @@ const reducer: Reducer<walletInfo> = (state = initialState, action) => {
         case WalletActionTypes.SET_CONNECTED:
             return {...state, connected: action.connected};
         case WalletActionTypes.SET_WALLETS:
-            return {...state, wallets: action.wallets};
+            return {...state, wallets: action.wallets, walletAddress: action.address};
         case WalletActionTypes.SET_CHAIN_PRICE:
             return {...state, chainPrice: action.price};
         default:

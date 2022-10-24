@@ -64,13 +64,45 @@ export async function retrieveProject(id: number) {
     }
     // Parse out the MessageObject object
     const msgRawObj = ret.unwrap();
-    console.log("Done and returned ", msgRawObj?.title);
-    if (msgRawObj) {
-        const msgObj = {
-            id: msgRawObj.id,
-            title: msgRawObj.title
-        };
-        return msgObj;
+    // if (msgRawObj) {
+    //     const msgObj = {
+    //         id: msgRawObj.id,
+    //         title: msgRawObj.title
+    //     };
+    //     return msgObj;
+    // }
+    return msgRawObj;
+}
+
+// paging list messages under path /messages_list
+export async function listProjectsByPage(pageIndex: number) {
+    const stack = checkStack();
+    // Get your own OwnerId
+    // const target = to ? to : stack.checkOwner();
+    const selfObjectId = stack.checkOwner();
+    // Get an instance of cyfs.GlobalStateAccessStub
+    const access = stack.check().root_state_access_stub(selfObjectId);
+    // Use the list method to list all objects under messages_list
+    const lr = await access.list('/projects_list', pageIndex, 10);
+
+    if (lr.err) {
+        if (lr.val.code !== cyfs.BuckyErrorCode.NotFound) {
+            console.error(`list-subdirs in(messages_list) io failed, ${lr}`);
+        } else {
+            console.warn(`list-subdirs in(messages_list) not found, ${lr}`);
+        }
+        return [];
     }
-    return null;
+
+    const list = lr.unwrap();
+    const keyList = list.map((item) => item.map!.key);
+    console.log('keyList: ', keyList);
+    let allProjects = [];
+    // eslint-disable-next-line @typescript-eslint/prefer-for-of
+    for (let i = 0; i < keyList.length; i++) {
+        const msg = await retrieveProject(parseInt(keyList[i], 10));
+        allProjects.push(msg);
+    }
+    // const retList = msgList.filter((msg) => msg !== null) as Project[];
+    return allProjects;
 }
