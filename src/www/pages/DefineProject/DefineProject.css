@@ -2,6 +2,10 @@
   font-size: 18px;
 }
 
+.top-marg {
+  margin-top: 10px;
+}
+
 .form-title-div {
   margin-top: 15px;
   background-color: #E7ECEF;

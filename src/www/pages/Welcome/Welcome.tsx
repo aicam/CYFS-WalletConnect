@@ -36,13 +36,12 @@ const GreenomicsHomepage: React.FC<Props> = ({wallet, setWallets, setChainPrice}
     const [account, setAccount] = useState("");
     const [chainId, setChainId] = useState(0);
     const [walletKey, setWalletKey] = useState('0x7fF903458903485dD29');
-    const [currency, setCurrency] = useState('ETH');
+    const [currency, setCurrency] = useState('MATIC');
     const [currencyAmount, setCurrencyAmount] = useState(0);
     const [nationalCurrency, setNationalCurrency] = useState('USD');
     const [nationalCurrencyAmount, setNationalCurrencyAmount] = useState('0.00');
 
     useEffect(() => {
-        setCurrency('ETH');
         setCurrencyAmount(0);
         setNationalCurrency('USD');
         setNationalCurrencyAmount('0.00');
@@ -93,7 +92,8 @@ const GreenomicsHomepage: React.FC<Props> = ({wallet, setWallets, setChainPrice}
     const saveWalletInfo = async (account: string, chainId: number) => {
         setConnected(true);
         setAccount(account);
-        setWalletKey(account.substring(0, 6) + '...' + account.substring(account.length - 4, account.length))
+        setWalletKey(account);
+        // account.substring(0, 6) + '...' + account.substring(account.length - 4, account.length))
         setChainId(chainId);
         setWallets(account, chainId.toString()).then((_: any) => console.log('wallet for async ', wallet));
     }
@@ -110,7 +110,7 @@ const GreenomicsHomepage: React.FC<Props> = ({wallet, setWallets, setChainPrice}
 
     useEffect(() => {
         if (wallet.wallets.length > 0 && wallet.chainPrice === 0)
-            setChainPrice('ETH');
+            setChainPrice('MATIC');
     }, [wallet]);
 
     return (
@@ -126,8 +126,9 @@ const GreenomicsHomepage: React.FC<Props> = ({wallet, setWallets, setChainPrice}
                         <h2 className={styles.titleClients}>As a project developer: You can make an ERC20 token
                             out of your Carbon removals which should be confirmed by Verra or Gold Standard and
                             start to trade it.</h2>
-                        <h2 className={styles.titleClients}>As a buyer: You can buy Carbon tokens and retire them to generate Carbon credits
-                        in voluntary market.</h2>
+                        <h2 className={styles.titleClients}>As a buyer: You can buy Carbon tokens and retire them to
+                            generate Carbon credits
+                            in voluntary market.</h2>
                     </div>
                     <div className={styles.box}>
                         <Button onClick={() => openDialog()} type="primary">
@@ -137,7 +138,41 @@ const GreenomicsHomepage: React.FC<Props> = ({wallet, setWallets, setChainPrice}
                 </div>
             }
             {connected &&
-                <DefineProject />
+                <>
+                    <div>
+                        <div className={styles.Title}>
+                            <img className={styles.ImageLogo} src={CYFSWalletLogo} alt="CYFSWalletLogo"/>
+                            <p className={styles.TilteText}>CYFS Wallet</p>
+                            <a className={styles.disconnect} onClick={disconnect}>Disconnect</a>
+                        </div>
+                        <div className={styles.Container}>
+                            <div className={styles.AccountWallet}>
+                                <p className={styles.TilteText}>Wallet Address</p>
+                                <div className={styles.WalletKey}>
+                                    <p className={styles.WalletKeyText}>
+                                        {walletKey}
+                                    </p>
+                                    <img className={styles.ImageCopy} src={copy} alt="copy"
+                                         onClick={() => copyWalletKey()}/>
+                                </div>
+                            </div>
+                            <div className={styles.CurrencyContainer}>
+                                <img className={styles.ImageCurrency} src={ethereum} alt="ethereum"/>
+                                <div className={styles.CurrencyValueContainer}>
+                                    {wallet.wallets.length > 0 &&
+                                        <p className={styles.CurrencyAmountText}>{wallet.wallets[0].balance}</p>}
+                                    <p className={styles.CurrencyAmountText}>{currency}</p>
+                                </div>
+                                <div className={styles.NationalCurrencyValueContainer}>
+                                    {wallet.chainPrice > 0 &&
+                                        <p className={styles.NationalCurrencyAmountText}>{'$' + wallet.chainPrice * parseInt(wallet.wallets[0].balance, 10)}</p>}
+                                    <p className={styles.NationalCurrencyAmountText}>{nationalCurrency}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <DefineProject/>
+                </>
             }
         </>
     );
